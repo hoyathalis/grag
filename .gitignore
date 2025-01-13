@@ -54,3 +54,13 @@ coverage.xml
 
 # Local development
 .local/
+
+
+# Input/Output folders
+z_input/
+z_output/
+output/
+
+# Cache
+cache/
+.cache/
