@@ -64,10 +64,10 @@ local_search:
   prompt: ${PROMPT_PATH}/local_search_system_prompt.txt
 parallelization:
   stagger: 0.3
-pdf_cache_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\cache
-pdf_input_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\input
-pdf_logs_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\logs
-pdf_output_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\output
+pdf_cache_dir: app\data\hoyath\c0a3cc1c4538da999409ae0b63dd913d2655ab84538c0ab07b3460752daff307\cache
+pdf_input_dir: app\data\hoyath\c0a3cc1c4538da999409ae0b63dd913d2655ab84538c0ab07b3460752daff307\input
+pdf_logs_dir: app\data\hoyath\c0a3cc1c4538da999409ae0b63dd913d2655ab84538c0ab07b3460752daff307\logs
+pdf_output_dir: app\data\hoyath\c0a3cc1c4538da999409ae0b63dd913d2655ab84538c0ab07b3460752daff307\output
 prompt_path: app\prompts
 reporting:
   base_dir: ${USER_PDF_LOGS_DIR}

@@ -10,9 +10,9 @@ from pathlib import Path
 import pandas as pd
 import uuid
 import asyncio
-from fastapi import UploadFile
 import logging
-
+from fastapi import UploadFile
+ 
 class GragService:
     def __init__(self):
         self.pdf_service = PdfService()
@@ -37,22 +37,30 @@ class GragService:
         os.makedirs(base_dir, exist_ok=True)
         file_path = os.path.join(base_dir, f"{pdf_id}_{file.filename}")
         
-        with open(file_path, "wb") as f:
-            f.write(file_content)
+        # Offload file writing to executor
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, self._write_file, file_path, file_content)
 
         asyncio.create_task(self._process_grag_request(request_id, file_path, pdf_id))
         return {'request_id': request_id, 'pdf_id': pdf_id}
 
+    def _write_file(self, file_path, content):
+        with open(file_path, "wb") as f:
+            f.write(content)
+
     async def _process_grag_request(self, request_id: str, file_path: str, pdf_id: str):
         logger = logging.getLogger(__name__)
+        loop = asyncio.get_event_loop()
         
         try:
             logger.info(f"Starting to process grag request {request_id} for PDF {pdf_id}")
-            pdf_text = self.pdf_service.parse_pdf(file_path)
+            
+            # Parse PDF in executor
+            pdf_text = await loop.run_in_executor(None, self.pdf_service.parse_pdf, file_path)
             logger.info(f"Successfully parsed PDF for request {request_id}")
             
-            # Delete the file after parsing
-            os.remove(file_path)
+            # Delete the file in executor
+            await loop.run_in_executor(None, os.remove, file_path)
             logger.info(f"Deleted temporary PDF file: {file_path}")
 
             result = await self.get_grag_data(pdf_id=pdf_id, story=pdf_text)
