@@ -84,7 +84,16 @@ class GragService:
         doc = firebase_db.collection('grag_requests').document(request_id).get()
         if not doc.exists:
             raise ValueError(f"No grag request found with id: {request_id}")
-        return doc.to_dict()
+        data = doc.to_dict()
+        # Clean and validate data
+        if 'data' in data and isinstance(data['data'], dict):
+            for key in ['nodes', 'relationships']:
+                if key in data['data']:
+                    data['data'][key] = [
+                        {k: (v if not pd.isna(v) else None) for k, v in item.items()}
+                        for item in data['data'][key]
+                    ]
+        return data
 
     async def get_grag_data(self, pdf_id: str, story: str):
         user_id = "hoyath"

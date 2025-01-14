@@ -4,16 +4,14 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
-# Copy requirements first for caching
+# Copy only the required files
 COPY requirements.txt .
+COPY .env .
+COPY firebase.json .
+COPY app/ ./app/
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy application code and configuration files
-COPY ./app /app/app
-COPY .env /app/.env
-COPY firebase.json /app/firebase.json
 
 # Expose port for FastAPI
 EXPOSE 8000
