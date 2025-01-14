@@ -45,9 +45,10 @@ embeddings:
 input:
   type: file # or blob
   file_type: text # or csv
-  base_dir: "input"
+  base_dir: "Z_input"
   file_encoding: utf-8
   file_pattern: ".*\\.txt$"
+
 
 chunks:
   size: 1200
@@ -68,7 +69,7 @@ reporting:
 
 storage:
   type: file # one of [blob, cosmosdb, file]
-  base_dir: "output"
+  base_dir: "z_output"
 
 ## only turn this on if running `graphrag index` with custom settings
 ## we normally use `graphrag update` with the defaults

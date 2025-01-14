@@ -1,3 +1,8 @@
 fastapi
 uvicorn
 graphrag
+
+firebase-admin
+
+PyPDF2
+python-multipart

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.api.v1.endpoints.grag import grag_router
 from app.core.logging import logger
+
 import uvicorn
 
 
@@ -12,6 +13,9 @@ app = FastAPI(
 
 # Include routers
 app.include_router(grag_router, prefix="/api/v1", tags=["grag"])
+
+# Initialize Firebase
+
 
 # Root endpoint
 @app.get("/")

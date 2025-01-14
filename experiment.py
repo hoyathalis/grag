@@ -3,6 +3,7 @@ import graphrag.api as api
 from graphrag.index.typing import PipelineRunResult
 from graphrag.config.create_graphrag_config import create_graphrag_config
 import yaml
+import os
 
 try:
     with open("settings.yaml", "r") as config_file:
@@ -13,6 +14,29 @@ except FileNotFoundError:
 except yaml.YAMLError as e:
     print(f"Error parsing 'settings.yaml': {e}")
     exit(1)
+
+# Update prompt_path to current directory's prompts path
+current_prompts_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "z_input\prompts")
+
+# Add check if prompts directory exists
+if not os.path.exists(current_prompts_path):
+    print(f"Error: Prompts directory not found at {current_prompts_path}")
+    exit(1)
+
+# Set PROMPT_PATH environment variable and update settings
+os.environ['PROMPT_PATH'] = current_prompts_path
+settings['prompt_path'] = current_prompts_path
+
+#print(settings)
+
+# Dump updated settings to _dump.yaml
+try:
+    with open('_dump.yaml', 'w') as dump_file:
+        yaml.dump(settings, dump_file, default_flow_style=False)
+    print("Updated settings saved to _dump.yaml")
+except Exception as e:
+    print(f"Error saving settings dump: {e}")
+
 try:
     graphrag_config = create_graphrag_config(values=settings, root_dir="./")
 except Exception as e:

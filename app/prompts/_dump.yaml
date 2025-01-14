@@ -1,0 +1,88 @@
+async_mode: threaded
+basic_search:
+  prompt: ${PROMPT_PATH}/basic_search_system_prompt.txt
+cache:
+  base_dir: ${USER_PDF_CACHE_DIR}
+  type: file
+chunks:
+  group_by_columns:
+  - id
+  overlap: 100
+  size: 1200
+claim_extraction:
+  description: Any claims or facts that could be relevant to information discovery.
+  enabled: false
+  max_gleanings: 1
+  prompt: ${PROMPT_PATH}/claim_extraction.txt
+cluster_graph:
+  max_cluster_size: 10
+community_reports:
+  max_input_length: 8000
+  max_length: 2000
+  prompt: ${PROMPT_PATH}/community_report.txt
+drift_search:
+  prompt: ${PROMPT_PATH}/drift_search_system_prompt.txt
+embed_graph:
+  enabled: false
+embeddings:
+  async_mode: threaded
+  llm:
+    api_base: https://api.openai.com/v1
+    api_key: ${GRAPHRAG_API_KEY_FOR_EMBEDDING}
+    model: text-embedding-3-small
+    type: openai_embedding
+  vector_store:
+    container_name: default
+    db_uri: ${USER_PDF_OUTPUT_DIR}/lancedb
+    overwrite: true
+    type: lancedb
+entity_extraction:
+  entity_types:
+  - organization
+  - person
+  - geo
+  - event
+  max_gleanings: 1
+  prompt: ${PROMPT_PATH}/entity_extraction.txt
+global_search:
+  knowledge_prompt: ${PROMPT_PATH}/global_search_knowledge_system_prompt.txt
+  map_prompt: ${PROMPT_PATH}/global_search_map_system_prompt.txt
+  reduce_prompt: ${PROMPT_PATH}/global_search_reduce_system_prompt.txt
+input:
+  base_dir: ${USER_PDF_INPUT_DIR}
+  file_encoding: utf-8
+  file_pattern: .*\.txt$
+  file_type: text
+  type: file
+llm:
+  api_base: https://api.groq.com/openai/v1
+  api_key: ${GRAPHRAG_API_KEY}
+  model: llama3-8b-8192
+  model_supports_json: false
+  type: openai_chat
+local_search:
+  prompt: ${PROMPT_PATH}/local_search_system_prompt.txt
+parallelization:
+  stagger: 0.3
+pdf_cache_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\cache
+pdf_input_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\input
+pdf_logs_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\logs
+pdf_output_dir: app\data\hoyath\6d3bafd4dc795517f81ad85c3bfff03eb3fe368cdeb288505d92e6e29ff8d59b\output
+prompt_path: app\prompts
+reporting:
+  base_dir: ${USER_PDF_LOGS_DIR}
+  type: file
+skip_workflows: []
+snapshots:
+  embeddings: false
+  graphml: false
+  transient: false
+storage:
+  base_dir: ${USER_PDF_OUTPUT_DIR}
+  type: file
+summarize_descriptions:
+  max_length: 500
+  prompt: ${PROMPT_PATH}/summarize_descriptions.txt
+umap:
+  enabled: false
+update_index_storage: null
